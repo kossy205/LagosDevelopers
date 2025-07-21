@@ -119,6 +119,7 @@ private fun TopSection(
     val context = LocalContext.current
     val developerState = developerState.collectAsState().value
     val isFavourite = developerDetailsViewModel.isFavourite.collectAsState().value
+    val noInternetState = developerState is DevResponseState.NoInternet
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -137,72 +138,41 @@ private fun TopSection(
             )
         )
 
-        if(isFavourite){
-            Icon(
-                painter = painterResource(id = R.drawable.ic_love_filled),
-                contentDescription = "",
-                tint = Red,
-                modifier = Modifier
-                    .size(38.dp)
-                    .clickable {
-                        developerDetailsViewModel.apply {
-                            removeFromFavourites(dev)
-                            setIsFavourite(!isFavourite)
-                            Toast.makeText(context, "Removed from favourites", Toast.LENGTH_SHORT).show()
+        if(!noInternetState){
+            if(isFavourite){
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_love_filled),
+                    contentDescription = "",
+                    tint = Red,
+                    modifier = Modifier
+                        .size(38.dp)
+                        .clickable {
+                            developerDetailsViewModel.apply {
+                                removeFromFavourites(dev)
+                                setIsFavourite(!isFavourite)
+                                Toast.makeText(context, "Removed from favourites", Toast.LENGTH_SHORT)
+                                    .show()
+                            }
                         }
-                    }
-            )
-        }else {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_love_outlined),
-                contentDescription = "",
-                tint = Red,
-                modifier = Modifier
-                    .size(38.dp)
-                    .clickable {
-                        developerDetailsViewModel.apply {
-                            insertIntoFavourites(dev)
-                            setIsFavourite(!isFavourite)
-                            Toast.makeText(context, "Added to favourites", Toast.LENGTH_SHORT).show()
+                )
+            }else {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_love_outlined),
+                    contentDescription = "",
+                    tint = Red,
+                    modifier = Modifier
+                        .size(38.dp)
+                        .clickable {
+                            developerDetailsViewModel.apply {
+                                insertIntoFavourites(dev)
+                                setIsFavourite(!isFavourite)
+                                Toast.makeText(context, "Added to favourites", Toast.LENGTH_SHORT)
+                                    .show()
+                            }
                         }
-                    }
-            )
+                )
+            }
         }
-
-
-//
-//        if (developerState is DevResponseState.Success) {
-//            if(developerState.data.isFavourite){
-//                Icon(
-//                    painter = painterResource(id = R.drawable.ic_love_filled),
-//                    contentDescription = "",
-//                    tint = Red,
-//                    modifier = Modifier
-//                        .size(38.dp)
-//                        .clickable {
-//                            developerDetailsViewModel.apply {
-//                                removeFromFavourites(dev)
-//                                Toast.makeText(context, "Removed from favourites", Toast.LENGTH_SHORT).show()
-//                            }
-//                        }
-//                )
-//            }else {
-//                Icon(
-//                    painter = painterResource(id = R.drawable.ic_love_outlined),
-//                    contentDescription = "",
-//                    tint = Red,
-//                    modifier = Modifier
-//                        .size(38.dp)
-//                        .clickable {
-//                            developerDetailsViewModel.apply {
-//                                insertIntoFavourites(dev)
-//                                Toast.makeText(context, "Added to favourites", Toast.LENGTH_SHORT).show()
-//                            }
-//                        }
-//                )
-//            }
-//
-//        }
 
     }
 }
@@ -244,6 +214,15 @@ private fun DeveloperDetailsSection(
                     }
                 }
                 is DevResponseState.Error -> {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier
+                            .fillMaxSize()
+                    ){
+                        Text(text = "${ result.message }, check internet connection and try again")
+                    }
+                }
+                is DevResponseState.NoInternet -> {
                     Box(
                         contentAlignment = Alignment.Center,
                         modifier = Modifier

@@ -2,6 +2,7 @@ package com.kosiso.lagosdevelopers.ui.developer_list_screen
 
 import android.annotation.SuppressLint
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -37,6 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -153,7 +155,7 @@ private fun LagosDevsListSection(
                 }
                 is LoadState.Error -> {
                     item {
-                        Text("Error loading data, enable internet connection and try again.")
+                        Text("Unable to load developers, enable internet connection and try again.")
                     }
                 }
                 else -> {}
@@ -196,6 +198,7 @@ private fun DevItem(
     onAddToFavourite:() -> Unit
 ){
 
+    val context = LocalContext.current
     val devName = if (dev.login.length > 12) {
         dev.login.take(9) + "..."
     } else {
@@ -233,7 +236,7 @@ private fun DevItem(
 
             Icon(
                 painter = painterResource(id = R.drawable.ic_more_vert),
-                contentDescription = "",
+                contentDescription = "more icon",
                 tint = Pink,
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
@@ -252,6 +255,7 @@ private fun DevItem(
                     onClick = {
                         onAddToFavourite()
                         showMenu = false
+                        Toast.makeText(context, "${dev.login} added to favourites", Toast.LENGTH_SHORT).show()
                     }
                 )
             }

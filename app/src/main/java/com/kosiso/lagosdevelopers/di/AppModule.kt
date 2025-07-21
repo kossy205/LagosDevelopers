@@ -39,6 +39,12 @@ object AppModule {
         .fallbackToDestructiveMigration()
         .build()
 
+    @Provides
+    @Singleton
+    fun provideApplicationContext(@ApplicationContext context: Context): Context {
+        return context
+    }
+
     @Singleton
     @Provides
     fun provideFavouriteDevelopersDao(db: FavouriteDevelopersDatabase) = db.FavouriteDevelopersDao()

@@ -40,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -105,6 +106,7 @@ fun TopSection(
     favouritesListViewModel: FavouritesListViewModel,
     favDevsPagingItems: LazyPagingItems<FavouriteDev>
 ){
+    val context = LocalContext.current
     var showDialog by remember { mutableStateOf(false) }
 
     Row(
@@ -125,11 +127,11 @@ fun TopSection(
 
         if(favDevsPagingItems.itemCount > 0 ){
             Icon(
-                painter = painterResource(id = R.drawable.ic_love_filled),
+                painter = painterResource(id = R.drawable.ic_trash),
                 contentDescription = "",
-                tint = Red,
+                tint = Pink,
                 modifier = Modifier
-                    .size(38.dp)
+                    .size(30.dp)
                     .clickable {
                         showDialog = true
                     }
@@ -141,7 +143,10 @@ fun TopSection(
     if(showDialog){
         ShowDialog(
             onDismiss = { showDialog = false },
-            onConfirm = { favouritesListViewModel.clearAllFavourites() }
+            onConfirm = {
+                favouritesListViewModel.clearAllFavourites()
+                Toast.makeText(context, "Favourite list is cleared", Toast.LENGTH_SHORT).show()
+            }
         )
     }
 }
@@ -170,7 +175,7 @@ private fun FavouriteDevsListSection(
                         .padding(16.dp)
                 ) {
                     Text(
-                        text = "You have not added any Favourite developer",
+                        text = "Seem like you don't have a Favourite developer",
                         style = TextStyle(
                             color = Black,
                             fontFamily = onest,
@@ -281,6 +286,7 @@ private fun FavDevItem(
         dev.login
     }
     var showMenu by remember{ mutableStateOf(false) }
+    val context = LocalContext.current
 
     BoxWithConstraints(
         modifier = Modifier
@@ -331,6 +337,7 @@ private fun FavDevItem(
                     onClick = {
                         onRemoveFromFavourite()
                         showMenu = false
+                        Toast.makeText(context, "${dev.login} is removed from favourites", Toast.LENGTH_SHORT).show()
                     }
                 )
             }
