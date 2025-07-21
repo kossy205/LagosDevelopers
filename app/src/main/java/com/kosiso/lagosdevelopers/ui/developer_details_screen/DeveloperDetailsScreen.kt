@@ -3,6 +3,7 @@ package com.kosiso.lagosdevelopers.ui.developer_details_screen
 import android.os.Build
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -66,6 +67,10 @@ fun DeveloperDetailsScreen(
     onBackClick: () -> Unit
 ) {
     val developerState = developerDetailsViewModel.developerState
+
+    BackHandler {
+        onBackClick()
+    }
 
     ConstraintLayout(
         modifier = Modifier

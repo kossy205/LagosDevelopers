@@ -3,10 +3,9 @@ package com.kosiso.lagosdevelopers.ui
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
@@ -29,19 +28,20 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModelProvider
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
-import com.google.gson.Gson
+import com.kosiso.lagosdevelopers.R
+import com.kosiso.lagosdevelopers.models.LagosDeveloper
 import com.kosiso.lagosdevelopers.ui.developer_details_screen.DeveloperDetailsScreen
+import com.kosiso.lagosdevelopers.ui.developer_details_screen.DeveloperDetailsViewModel
 import com.kosiso.lagosdevelopers.ui.developer_list_screen.DeveloperListScreen
 import com.kosiso.lagosdevelopers.ui.developer_list_screen.DevelopersListViewModel
+import com.kosiso.lagosdevelopers.ui.favourites_screen.FavouritesListViewModel
 import com.kosiso.lagosdevelopers.ui.favourites_screen.FavouritesScreen
 import com.kosiso.lagosdevelopers.ui.navigation.BottomNavItem
 import com.kosiso.lagosdevelopers.ui.navigation.MainAppNav
@@ -50,12 +50,9 @@ import com.kosiso.lagosdevelopers.ui.theme.Black
 import com.kosiso.lagosdevelopers.ui.theme.LagosDevelopersTheme
 import com.kosiso.lagosdevelopers.ui.theme.Pink
 import com.kosiso.lagosdevelopers.ui.theme.White
-import com.kosiso.lagosdevelopers.R
-import com.kosiso.lagosdevelopers.models.LagosDeveloper
-import com.kosiso.lagosdevelopers.ui.developer_details_screen.DeveloperDetailsViewModel
-import com.kosiso.lagosdevelopers.ui.favourites_screen.FavouritesListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.UUID
+
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @RequiresApi(Build.VERSION_CODES.O)
@@ -63,7 +60,6 @@ import java.util.UUID
 class MainActivity : ComponentActivity() {
 
     val developersListViewModel by viewModels<DevelopersListViewModel>()
-    val developerDetailsViewModel by viewModels<DeveloperDetailsViewModel>()
     val favouritesListViewModel by viewModels<FavouritesListViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,12 +87,18 @@ class MainActivity : ComponentActivity() {
                 MainApp(rootNavController, developerListViewModel)
             }
 
-            composable(RootNav.DEVELOPER_DETAILS.route
-            ) {backStack->
+            composable(
+                route = RootNav.DEVELOPER_DETAILS.route
+
+            ) {backStackEntry->
                 val developer = remember {
                     rootNavController.previousBackStackEntry
                         ?.savedStateHandle
                         ?.get<LagosDeveloper>("developer")
+                }
+                val developerDetailsViewModel: DeveloperDetailsViewModel = hiltViewModel()
+                BackHandler {
+                    rootNavController.popBackStack()
                 }
                 DeveloperDetailsScreen(
                     developer = developer,

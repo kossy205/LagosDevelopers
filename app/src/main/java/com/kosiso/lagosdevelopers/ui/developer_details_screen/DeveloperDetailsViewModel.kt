@@ -1,5 +1,6 @@
 package com.kosiso.lagosdevelopers.ui.developer_details_screen
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kosiso.lagosdevelopers.data.repository.MainRepository
@@ -93,6 +94,11 @@ class DeveloperDetailsViewModel @Inject constructor(val repository: MainReposito
                 _insertOrRemoveFromFavState.value = DevResponseState.Success("Added to favourites")
             }
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Log.d("DeveloperDetailsViewModel", "ViewModel cleared")
     }
 
 }
