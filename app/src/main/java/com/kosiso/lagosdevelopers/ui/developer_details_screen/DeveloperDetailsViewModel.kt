@@ -17,6 +17,9 @@ import javax.inject.Inject
 @HiltViewModel
 class DeveloperDetailsViewModel @Inject constructor(val repository: MainRepository) : ViewModel() {
 
+    private val _isFavourite = MutableStateFlow(false)
+    val isFavourite: StateFlow<Boolean> = _isFavourite
+
     private val _insertOrRemoveFromFavState = MutableStateFlow<DevResponseState<String>>(DevResponseState.Loading)
     val insertOrRemoveFromFavState: StateFlow<DevResponseState<String>> = _insertOrRemoveFromFavState
 
@@ -47,6 +50,7 @@ class DeveloperDetailsViewModel @Inject constructor(val repository: MainReposito
                     isFavourite = true
                 )
                 _developerState.value = DevResponseState.Success(favouriteDev)
+                _isFavourite.value = true
             }else{
                 val devFromApiState = repository.getDeveloperDetails(dev.login)
                 if(devFromApiState is DevResponseState.Success){
@@ -69,6 +73,7 @@ class DeveloperDetailsViewModel @Inject constructor(val repository: MainReposito
                         isFavourite = false
                     )
                     _developerState.value = DevResponseState.Success(favouriteDev)
+                    _isFavourite.value = false
                 }else{
                     _developerState.value = DevResponseState.Error("Error fetching developer details")
                 }
@@ -79,7 +84,6 @@ class DeveloperDetailsViewModel @Inject constructor(val repository: MainReposito
     fun removeFromFavourites(dev: LagosDeveloper){
         viewModelScope.launch {
             repository.removeFavDev(dev.id)
-            getDeveloperDetails(dev)
             _insertOrRemoveFromFavState.value = DevResponseState.Success("Removed from favourites")
         }
     }
@@ -90,10 +94,13 @@ class DeveloperDetailsViewModel @Inject constructor(val repository: MainReposito
             if(developerState is DevResponseState.Success){
                 val developer = developerState.data
                 repository.addToFavorites(developer)
-                getDeveloperDetails(dev)
                 _insertOrRemoveFromFavState.value = DevResponseState.Success("Added to favourites")
             }
         }
+    }
+
+    fun setIsFavourite(isFavourite: Boolean){
+        _isFavourite.value = isFavourite
     }
 
     override fun onCleared() {

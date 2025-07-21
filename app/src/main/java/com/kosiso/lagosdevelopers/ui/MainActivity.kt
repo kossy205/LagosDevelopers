@@ -139,8 +139,7 @@ class MainActivity : ComponentActivity() {
                     onItemClick = {
                         if (mainAppNavController.currentDestination?.route != it.route) {
                             mainAppNavController.navigate(it.route) {
-                                // Pop all entries above DEVELOPERS, keeping DEVELOPERS
-                                popUpTo(MainAppNav.DEVELOPERS.route) { inclusive = true }
+                                popUpTo(MainAppNav.FAVOURITES.route) { inclusive = true }
                                 launchSingleTop = true
                             }
                         }

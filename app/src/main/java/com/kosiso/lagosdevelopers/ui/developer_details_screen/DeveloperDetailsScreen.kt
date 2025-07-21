@@ -118,6 +118,7 @@ private fun TopSection(
 ) {
     val context = LocalContext.current
     val developerState = developerState.collectAsState().value
+    val isFavourite = developerDetailsViewModel.isFavourite.collectAsState().value
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -136,38 +137,73 @@ private fun TopSection(
             )
         )
 
-        if (developerState is DevResponseState.Success) {
-            if(developerState.data.isFavourite){
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_love_filled),
-                    contentDescription = "",
-                    tint = Red,
-                    modifier = Modifier
-                        .size(38.dp)
-                        .clickable {
-                            developerDetailsViewModel.apply {
-                                removeFromFavourites(dev)
-                                Toast.makeText(context, "Removed from favourites", Toast.LENGTH_SHORT).show()
-                            }
+        if(isFavourite){
+            Icon(
+                painter = painterResource(id = R.drawable.ic_love_filled),
+                contentDescription = "",
+                tint = Red,
+                modifier = Modifier
+                    .size(38.dp)
+                    .clickable {
+                        developerDetailsViewModel.apply {
+                            removeFromFavourites(dev)
+                            setIsFavourite(!isFavourite)
+                            Toast.makeText(context, "Removed from favourites", Toast.LENGTH_SHORT).show()
                         }
-                )
-            }else {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_love_outlined),
-                    contentDescription = "",
-                    tint = Red,
-                    modifier = Modifier
-                        .size(38.dp)
-                        .clickable {
-                            developerDetailsViewModel.apply {
-                                insertIntoFavourites(dev)
-                                Toast.makeText(context, "Added to favourites", Toast.LENGTH_SHORT).show()
-                            }
+                    }
+            )
+        }else {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_love_outlined),
+                contentDescription = "",
+                tint = Red,
+                modifier = Modifier
+                    .size(38.dp)
+                    .clickable {
+                        developerDetailsViewModel.apply {
+                            insertIntoFavourites(dev)
+                            setIsFavourite(!isFavourite)
+                            Toast.makeText(context, "Added to favourites", Toast.LENGTH_SHORT).show()
                         }
-                )
-            }
-
+                    }
+            )
         }
+
+
+//
+//        if (developerState is DevResponseState.Success) {
+//            if(developerState.data.isFavourite){
+//                Icon(
+//                    painter = painterResource(id = R.drawable.ic_love_filled),
+//                    contentDescription = "",
+//                    tint = Red,
+//                    modifier = Modifier
+//                        .size(38.dp)
+//                        .clickable {
+//                            developerDetailsViewModel.apply {
+//                                removeFromFavourites(dev)
+//                                Toast.makeText(context, "Removed from favourites", Toast.LENGTH_SHORT).show()
+//                            }
+//                        }
+//                )
+//            }else {
+//                Icon(
+//                    painter = painterResource(id = R.drawable.ic_love_outlined),
+//                    contentDescription = "",
+//                    tint = Red,
+//                    modifier = Modifier
+//                        .size(38.dp)
+//                        .clickable {
+//                            developerDetailsViewModel.apply {
+//                                insertIntoFavourites(dev)
+//                                Toast.makeText(context, "Added to favourites", Toast.LENGTH_SHORT).show()
+//                            }
+//                        }
+//                )
+//            }
+//
+//        }
+
     }
 }
 
