@@ -41,6 +41,15 @@ android {
     buildFeatures {
         compose = true
     }
+
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "META-INF/LICENSE.md"
+            excludes += "META-INF/LICENSE-notice.md"
+        }
+    }
+
 }
 
 dependencies {
@@ -109,6 +118,32 @@ dependencies {
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
 
-//    implementation("org.jetbrains.kotlinx:kotlinx-parcelize:1.3.0")
+    // Local unit tests
+    testImplementation("androidx.test:core:1.6.1")
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2")
+    testImplementation("com.google.truth:truth:1.4.4")
+    testImplementation("com.squareup.okhttp3:mockwebserver:5.0.0")
+    testImplementation("io.mockk:mockk:1.13.12")
+    debugImplementation("androidx.compose.ui:ui-test-manifest:1.8.3")
+    testImplementation("androidx.paging:paging-common-ktx:3.3.6")
+    testImplementation("androidx.paging:paging-common-ktx:3.3.6")
+    testImplementation("androidx.paging:paging-testing:3.3.6")
+    testImplementation("app.cash.turbine:turbine:1.1.0")
+
+
+    // Instrumentation tests
+    androidTestImplementation("com.google.dagger:hilt-android-testing:2.56.2")
+    kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.56.2")
+    androidTestImplementation("junit:junit:4.13.2")
+    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2")
+    androidTestImplementation("androidx.arch.core:core-testing:2.2.0")
+    androidTestImplementation("com.google.truth:truth:1.4.4")
+    androidTestImplementation("androidx.test.ext:junit:1.2.1")
+    androidTestImplementation("androidx.test:core-ktx:1.6.1")
+    androidTestImplementation("com.squareup.okhttp3:mockwebserver:4.12.0")
+    androidTestImplementation("io.mockk:mockk-android:1.14.4")
+    androidTestImplementation("androidx.test:runner:1.6.2")
 
 }

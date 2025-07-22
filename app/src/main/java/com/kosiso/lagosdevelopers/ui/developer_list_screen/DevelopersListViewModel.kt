@@ -36,7 +36,7 @@ class DevelopersListViewModel @Inject constructor(
         getLagosDevs()
     }
 
-    private fun getLagosDevs() {
+    fun getLagosDevs() {
         viewModelScope.launch {
             repository.getDevelopers()
                 .cachedIn(viewModelScope)

@@ -11,22 +11,18 @@ class ApiHelper {
 
     suspend fun <T> safeApiCall(apiCall: suspend () -> DevResponseState<T>): DevResponseState<T> {
         return try {
-            withContext(Dispatchers.IO){
+            withContext(Dispatchers.IO) {
                 apiCall()
             }
-
-        }catch (e: Exception){
-            Log.e("api Exception error", e.message, e)
-            DevResponseState.Error("Unexpected error: ${e.message}")
-
-        }catch (e: HttpException) {
+        } catch (e: HttpException) {
             Log.e("HttpException error", e.message, e)
             DevResponseState.Error("http error: ${e.message}")
-
         } catch (e: IOException) {
             Log.e("IOException error", "IOException error", e)
             DevResponseState.Error(e.message.toString())
-
+        } catch (e: Exception) {
+            Log.e("api Exception error", e.message, e)
+            DevResponseState.Error("Unexpected error: ${e.message}")
         }
     }
 
