@@ -54,6 +54,13 @@ import coil.compose.AsyncImage
 import com.kosiso.lagosdevelopers.R
 import com.kosiso.lagosdevelopers.data.state.DevResponseState
 import com.kosiso.lagosdevelopers.models.LagosDeveloper
+import com.kosiso.lagosdevelopers.ui.Constants.ADDED_TO_FAVOURITES
+import com.kosiso.lagosdevelopers.ui.Constants.ADD_TO_FAVOURITES
+import com.kosiso.lagosdevelopers.ui.Constants.AVATAR
+import com.kosiso.lagosdevelopers.ui.Constants.ERROR_LOADING_MORE_DATA
+import com.kosiso.lagosdevelopers.ui.Constants.LAGOS_DEVELOPERS
+import com.kosiso.lagosdevelopers.ui.Constants.MORE_ICON
+import com.kosiso.lagosdevelopers.ui.Constants.UNABLE_TO_LOAD_DEVELOPERS
 import com.kosiso.lagosdevelopers.ui.theme.BackgroundColor
 import com.kosiso.lagosdevelopers.ui.theme.Black
 import com.kosiso.lagosdevelopers.ui.theme.Pink
@@ -81,7 +88,7 @@ fun DeveloperListScreen(
             Spacer(modifier = Modifier.height(30.dp))
 
             Text(
-                text = "Lagos Developers",
+                text = LAGOS_DEVELOPERS,
                 style = TextStyle(
                     color = Black,
                     fontFamily = onest,
@@ -159,7 +166,7 @@ private fun LagosDevsListSection(
                 }
                 is LoadState.Error -> {
                     item {
-                        Text("Unable to load developers, enable internet connection and try again.")
+                        Text(UNABLE_TO_LOAD_DEVELOPERS)
                     }
                 }
                 else -> {}
@@ -185,7 +192,7 @@ private fun LagosDevsListSection(
                 }
                 is LoadState.Error -> {
                     item {
-                        Text("Error loading more data")
+                        Text(ERROR_LOADING_MORE_DATA)
                     }
                 }
                 else -> {}
@@ -230,7 +237,7 @@ private fun DevItem(
                 model = dev.avatarUrl,
                 placeholder = painterResource(id = R.drawable.ic_placeholder),
                 error = painterResource(id = R.drawable.ic_placeholder),
-                contentDescription = "avatar",
+                contentDescription = AVATAR,
                 modifier = Modifier
                     .size(100.dp)
                     .clip(RoundedCornerShape(50.dp))
@@ -244,7 +251,7 @@ private fun DevItem(
             if(!noInternet){
                 Icon(
                     painter = painterResource(id = R.drawable.ic_more_vert),
-                    contentDescription = "more icon",
+                    contentDescription = MORE_ICON,
                     tint = Pink,
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
@@ -259,11 +266,11 @@ private fun DevItem(
                     modifier = Modifier.align(Alignment.BottomEnd)
                 ) {
                     DropdownMenuItem(
-                        text = { Text("Add To Favourites") },
+                        text = { Text(ADD_TO_FAVOURITES) },
                         onClick = {
                             onAddToFavourite()
                             showMenu = false
-                            Toast.makeText(context, "${dev.login} added to favourites", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "${dev.login} " + ADDED_TO_FAVOURITES, Toast.LENGTH_SHORT).show()
                         }
                     )
                 }

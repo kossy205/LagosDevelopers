@@ -37,6 +37,9 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.kosiso.lagosdevelopers.R
 import com.kosiso.lagosdevelopers.models.LagosDeveloper
+import com.kosiso.lagosdevelopers.ui.Constants.DEVELOPER
+import com.kosiso.lagosdevelopers.ui.Constants.DEVELOPERS
+import com.kosiso.lagosdevelopers.ui.Constants.FAVOURITES
 import com.kosiso.lagosdevelopers.ui.developer_details_screen.DeveloperDetailsScreen
 import com.kosiso.lagosdevelopers.ui.developer_details_screen.DeveloperDetailsViewModel
 import com.kosiso.lagosdevelopers.ui.developer_list_screen.DeveloperListScreen
@@ -93,7 +96,7 @@ class MainActivity : ComponentActivity() {
                 val developer = remember {
                     rootNavController.previousBackStackEntry
                         ?.savedStateHandle
-                        ?.get<LagosDeveloper>("developer")
+                        ?.get<LagosDeveloper>(DEVELOPER)
                 }
                 val developerDetailsViewModel: DeveloperDetailsViewModel = hiltViewModel()
                 BackHandler {
@@ -118,13 +121,13 @@ class MainActivity : ComponentActivity() {
         val bottomNavItems = listOf<BottomNavItem>(
             BottomNavItem(
                 id = UUID.randomUUID().toString(),
-                name = "Developers",
+                name = DEVELOPERS,
                 route = MainAppNav.DEVELOPERS.route,
                 icon = R.drawable.ic_list
             ),
             BottomNavItem(
                 id = UUID.randomUUID().toString(),
-                name = "Favourites",
+                name = FAVOURITES,
                 route = MainAppNav.FAVOURITES.route,
                 icon = R.drawable.ic_love_filled
             )
@@ -167,7 +170,7 @@ class MainActivity : ComponentActivity() {
                     developersListViewModel = developersListViewModel,
                     onNavigateToDetailsScreen = {developer ->
                         rootNavController.currentBackStackEntry?.savedStateHandle?.set(
-                            key = "developer",
+                            key = DEVELOPER,
                             value = developer
                         )
                         rootNavController.navigate(RootNav.DEVELOPER_DETAILS.route)
@@ -179,7 +182,7 @@ class MainActivity : ComponentActivity() {
                     favouritesListViewModel = favouritesListViewModel,
                     onNavigateToDetailsScreen = {developer ->
                         rootNavController.currentBackStackEntry?.savedStateHandle?.set(
-                            key = "developer",
+                            key = DEVELOPER,
                             value = developer
                         )
                         rootNavController.navigate(RootNav.DEVELOPER_DETAILS.route)

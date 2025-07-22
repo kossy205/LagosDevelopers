@@ -47,6 +47,22 @@ import com.kosiso.lagosdevelopers.R
 import com.kosiso.lagosdevelopers.data.state.DevResponseState
 import com.kosiso.lagosdevelopers.models.FavouriteDev
 import com.kosiso.lagosdevelopers.models.LagosDeveloper
+import com.kosiso.lagosdevelopers.ui.Constants.ADDED_TO_FAVOURITES
+import com.kosiso.lagosdevelopers.ui.Constants.AVATAR
+import com.kosiso.lagosdevelopers.ui.Constants.BIO
+import com.kosiso.lagosdevelopers.ui.Constants.CHECK_INTERNET_CONNECTION
+import com.kosiso.lagosdevelopers.ui.Constants.COMPANY
+import com.kosiso.lagosdevelopers.ui.Constants.DATE_CREATED
+import com.kosiso.lagosdevelopers.ui.Constants.EMAIL
+import com.kosiso.lagosdevelopers.ui.Constants.FOLLOWERS
+import com.kosiso.lagosdevelopers.ui.Constants.FOLLOWING
+import com.kosiso.lagosdevelopers.ui.Constants.INVALID_DATE
+import com.kosiso.lagosdevelopers.ui.Constants.LAST_UPDATED
+import com.kosiso.lagosdevelopers.ui.Constants.LOCATION
+import com.kosiso.lagosdevelopers.ui.Constants.NAME
+import com.kosiso.lagosdevelopers.ui.Constants.REMOVED_FROM_FAVOURITES
+import com.kosiso.lagosdevelopers.ui.Constants.REPOSITORIES
+import com.kosiso.lagosdevelopers.ui.Constants.TWITTER
 import com.kosiso.lagosdevelopers.ui.theme.BackgroundColor
 import com.kosiso.lagosdevelopers.ui.theme.Black
 import com.kosiso.lagosdevelopers.ui.theme.Pink
@@ -150,7 +166,7 @@ private fun TopSection(
                             developerDetailsViewModel.apply {
                                 removeFromFavourites(dev)
                                 setIsFavourite(!isFavourite)
-                                Toast.makeText(context, "Removed from favourites", Toast.LENGTH_SHORT)
+                                Toast.makeText(context, REMOVED_FROM_FAVOURITES, Toast.LENGTH_SHORT)
                                     .show()
                             }
                         }
@@ -166,7 +182,7 @@ private fun TopSection(
                             developerDetailsViewModel.apply {
                                 insertIntoFavourites(dev)
                                 setIsFavourite(!isFavourite)
-                                Toast.makeText(context, "Added to favourites", Toast.LENGTH_SHORT)
+                                Toast.makeText(context, ADDED_TO_FAVOURITES, Toast.LENGTH_SHORT)
                                     .show()
                             }
                         }
@@ -219,7 +235,7 @@ private fun DeveloperDetailsSection(
                         modifier = Modifier
                             .fillMaxSize()
                     ){
-                        Text(text = "${ result.message }, check internet connection and try again")
+                        Text(text = "${ result.message }, " + CHECK_INTERNET_CONNECTION)
                     }
                 }
                 is DevResponseState.NoInternet -> {
@@ -237,7 +253,7 @@ private fun DeveloperDetailsSection(
                         model = developer.avatarUrl,
                         placeholder = painterResource(id = R.drawable.ic_placeholder),
                         error = painterResource(id = R.drawable.ic_placeholder),
-                        contentDescription = "avatar",
+                        contentDescription = AVATAR,
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(200.dp)
@@ -249,7 +265,7 @@ private fun DeveloperDetailsSection(
 
                     Row {
                         Text(
-                            text = "Name:",
+                            text = NAME,
                             style = TextStyle(
                                 color = Black,
                                 fontFamily = onest,
@@ -274,7 +290,7 @@ private fun DeveloperDetailsSection(
 
                     Row {
                         Text(
-                            text = "Email:",
+                            text = EMAIL,
                             style = TextStyle(
                                 color = Black,
                                 fontFamily = onest,
@@ -299,7 +315,7 @@ private fun DeveloperDetailsSection(
 
                     Row {
                         Text(
-                            text = "Bio:",
+                            text = BIO,
                             style = TextStyle(
                                 color = Black,
                                 fontFamily = onest,
@@ -324,7 +340,7 @@ private fun DeveloperDetailsSection(
 
                     Row {
                         Text(
-                            text = "Company:",
+                            text = COMPANY,
                             style = TextStyle(
                                 color = Black,
                                 fontFamily = onest,
@@ -348,7 +364,7 @@ private fun DeveloperDetailsSection(
 
                     Row {
                         Text(
-                            text = "Location:",
+                            text = LOCATION,
                             style = TextStyle(
                                 color = Black,
                                 fontFamily = onest,
@@ -372,7 +388,7 @@ private fun DeveloperDetailsSection(
 
                     Row {
                         Text(
-                            text = "Twitter:",
+                            text = TWITTER,
                             style = TextStyle(
                                 color = Black,
                                 fontFamily = onest,
@@ -396,7 +412,7 @@ private fun DeveloperDetailsSection(
 
                     Row {
                         Text(
-                            text = "Repositories:",
+                            text = REPOSITORIES,
                             style = TextStyle(
                                 color = Black,
                                 fontFamily = onest,
@@ -420,7 +436,7 @@ private fun DeveloperDetailsSection(
 
                     Row {
                         Text(
-                            text = "Followers:",
+                            text = FOLLOWERS,
                             style = TextStyle(
                                 color = Black,
                                 fontFamily = onest,
@@ -444,7 +460,7 @@ private fun DeveloperDetailsSection(
 
                     Row {
                         Text(
-                            text = "Following:",
+                            text = FOLLOWING,
                             style = TextStyle(
                                 color = Black,
                                 fontFamily = onest,
@@ -468,7 +484,7 @@ private fun DeveloperDetailsSection(
 
                     Row {
                         Text(
-                            text = "Date Created:",
+                            text = DATE_CREATED,
                             style = TextStyle(
                                 color = Black,
                                 fontFamily = onest,
@@ -492,7 +508,7 @@ private fun DeveloperDetailsSection(
 
                     Row {
                         Text(
-                            text = "Last Updated:",
+                            text = LAST_UPDATED,
                             style = TextStyle(
                                 color = Black,
                                 fontFamily = onest,
@@ -524,7 +540,7 @@ private fun date(isoDate: String): String {
         zonedDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
     } catch (e: Exception) {
         Log.e("convert Iso To Date String", "Failed to parse date: $isoDate", e)
-        "Invalid date"
+        INVALID_DATE
     }
 }
 

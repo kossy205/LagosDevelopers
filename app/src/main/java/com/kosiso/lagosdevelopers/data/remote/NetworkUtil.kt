@@ -15,14 +15,13 @@ class NetworkUtils {
             val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
             return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                // For Android M and above
                 val network = connectivityManager.activeNetwork ?: return false
                 val capabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
 
                 capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
                         capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
             } else {
-                // For older Android versions
+
                 @Suppress("DEPRECATION")
                 val networkInfo = connectivityManager.activeNetworkInfo
                 networkInfo != null && networkInfo.isConnected

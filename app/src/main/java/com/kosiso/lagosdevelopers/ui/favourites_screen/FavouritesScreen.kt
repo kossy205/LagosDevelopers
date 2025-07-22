@@ -56,6 +56,17 @@ import coil.compose.AsyncImage
 import com.kosiso.lagosdevelopers.R
 import com.kosiso.lagosdevelopers.models.FavouriteDev
 import com.kosiso.lagosdevelopers.models.LagosDeveloper
+import com.kosiso.lagosdevelopers.ui.Constants.AVATAR
+import com.kosiso.lagosdevelopers.ui.Constants.CLEAR
+import com.kosiso.lagosdevelopers.ui.Constants.CLEAR_FAVOURITES
+import com.kosiso.lagosdevelopers.ui.Constants.CLEAR_FAVOURITE_WARNING
+import com.kosiso.lagosdevelopers.ui.Constants.ERROR_LOADING_DATA
+import com.kosiso.lagosdevelopers.ui.Constants.FAVOURITES
+import com.kosiso.lagosdevelopers.ui.Constants.FAVOURITE_DEVELOPERS
+import com.kosiso.lagosdevelopers.ui.Constants.FAVOURITE_LIST_CLEARED
+import com.kosiso.lagosdevelopers.ui.Constants.IS_REMOVED_FROM_FAVOURITES
+import com.kosiso.lagosdevelopers.ui.Constants.REMOVE_FROM_FAVOURITES
+import com.kosiso.lagosdevelopers.ui.Constants.SEEM_LIKE_YOU_DONT_HAVE_A_FAVOURITE_DEVELOPER
 import com.kosiso.lagosdevelopers.ui.theme.BackgroundColor
 import com.kosiso.lagosdevelopers.ui.theme.Black
 import com.kosiso.lagosdevelopers.ui.theme.Pink
@@ -116,7 +127,7 @@ fun TopSection(
         verticalAlignment = Alignment.CenterVertically
     ){
         Text(
-            text = "Favourites",
+            text = FAVOURITES,
             style = TextStyle(
                 color = Black,
                 fontFamily = onest,
@@ -145,7 +156,7 @@ fun TopSection(
             onDismiss = { showDialog = false },
             onConfirm = {
                 favouritesListViewModel.clearAllFavourites()
-                Toast.makeText(context, "Favourite list is cleared", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, FAVOURITE_LIST_CLEARED, Toast.LENGTH_SHORT).show()
             }
         )
     }
@@ -175,7 +186,7 @@ private fun FavouriteDevsListSection(
                         .padding(16.dp)
                 ) {
                     Text(
-                        text = "Seem like you don't have a Favourite developer",
+                        text = SEEM_LIKE_YOU_DONT_HAVE_A_FAVOURITE_DEVELOPER,
                         style = TextStyle(
                             color = Black,
                             fontFamily = onest,
@@ -196,7 +207,7 @@ private fun FavouriteDevsListSection(
                     items(
                         count = favDevsPagingItems.itemCount,
                         key = favDevsPagingItems.itemKey { it.id },
-                        contentType = favDevsPagingItems.itemContentType { "Favourite Developers" }
+                        contentType = favDevsPagingItems.itemContentType { FAVOURITE_DEVELOPERS }
                     ) { index ->
                         favDevsPagingItems[index]?.let { developer ->
                             FavDevItem(
@@ -235,7 +246,7 @@ private fun FavouriteDevsListSection(
                         }
                         is LoadState.Error -> {
                             item {
-                                Text("Error loading data, enable internet connection and try again.")
+                                Text(ERROR_LOADING_DATA)
                             }
                         }
                         else -> {}
@@ -260,7 +271,7 @@ private fun FavouriteDevsListSection(
                         }
                         is LoadState.Error -> {
                             item {
-                                Text("Error loading data, enable internet connection and try again.")
+                                Text(ERROR_LOADING_DATA)
                             }
                         }
                         else -> {}
@@ -305,7 +316,7 @@ private fun FavDevItem(
                 model = dev.avatarUrl,
                 placeholder = painterResource(id = R.drawable.ic_placeholder),
                 error = painterResource(id = R.drawable.ic_placeholder),
-                contentDescription = "avatar",
+                contentDescription = AVATAR,
                 modifier = Modifier
                     .size(100.dp)
                     .clip(RoundedCornerShape(50.dp))
@@ -333,11 +344,11 @@ private fun FavDevItem(
                 modifier = Modifier.align(Alignment.BottomEnd)
             ) {
                 DropdownMenuItem(
-                    text = { Text("Remove from Favourites") },
+                    text = { Text(REMOVE_FROM_FAVOURITES) },
                     onClick = {
                         onRemoveFromFavourite()
                         showMenu = false
-                        Toast.makeText(context, "${dev.login} is removed from favourites", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "${dev.login} " + IS_REMOVED_FROM_FAVOURITES, Toast.LENGTH_SHORT).show()
                     }
                 )
             }
@@ -367,10 +378,10 @@ private fun ShowDialog(
 ){
     AlertDialog(
         onDismissRequest = {},
-        title = { Text("Clear all Favourites") },
+        title = { Text(CLEAR_FAVOURITES) },
         text = {
             Text(
-                "This would clear all favourites and is not reversible"
+                CLEAR_FAVOURITE_WARNING
             )
         },
         confirmButton = {
@@ -378,7 +389,7 @@ private fun ShowDialog(
                 onConfirm()
                 onDismiss()
             }) {
-                Text("Clear")
+                Text(CLEAR)
             }
         }
     )
