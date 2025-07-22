@@ -29,6 +29,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -50,6 +52,7 @@ import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import coil.compose.AsyncImage
 import com.kosiso.lagosdevelopers.R
+import com.kosiso.lagosdevelopers.data.state.DevResponseState
 import com.kosiso.lagosdevelopers.models.LagosDeveloper
 import com.kosiso.lagosdevelopers.ui.theme.BackgroundColor
 import com.kosiso.lagosdevelopers.ui.theme.Black
@@ -125,6 +128,7 @@ private fun LagosDevsListSection(
                 lagosDevsPagingItems[index]?.let { developer ->
                     DevItem(
                         dev = developer,
+                        developersListViewModel = developersListViewModel,
                         onClick = {
                             onNavigateToDetailsScreen(developer)
                                   },
@@ -194,6 +198,7 @@ private fun LagosDevsListSection(
 @Composable
 private fun DevItem(
     dev: LagosDeveloper,
+    developersListViewModel: DevelopersListViewModel,
     onClick:() -> Unit,
     onAddToFavourite:() -> Unit
 ){
@@ -205,6 +210,8 @@ private fun DevItem(
         dev.login
     }
     var showMenu by remember{ mutableStateOf(false) }
+    val noNetworkState by developersListViewModel.noNetworkState.collectAsState()
+    val noInternet = noNetworkState is DevResponseState.NoInternet
 
     BoxWithConstraints(
         modifier = Modifier
@@ -234,30 +241,32 @@ private fun DevItem(
                 contentScale = ContentScale.Crop
             )
 
-            Icon(
-                painter = painterResource(id = R.drawable.ic_more_vert),
-                contentDescription = "more icon",
-                tint = Pink,
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .size(22.dp)
-                    .clickable {
-                        showMenu = true
-                    }
-            )
-            DropdownMenu(
-                expanded = showMenu,
-                onDismissRequest = { showMenu = false },
-                modifier = Modifier.align(Alignment.BottomEnd)
-            ) {
-                DropdownMenuItem(
-                    text = { Text("Add To Favourites") },
-                    onClick = {
-                        onAddToFavourite()
-                        showMenu = false
-                        Toast.makeText(context, "${dev.login} added to favourites", Toast.LENGTH_SHORT).show()
-                    }
+            if(!noInternet){
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_more_vert),
+                    contentDescription = "more icon",
+                    tint = Pink,
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .size(22.dp)
+                        .clickable {
+                            showMenu = true
+                        }
                 )
+                DropdownMenu(
+                    expanded = showMenu,
+                    onDismissRequest = { showMenu = false },
+                    modifier = Modifier.align(Alignment.BottomEnd)
+                ) {
+                    DropdownMenuItem(
+                        text = { Text("Add To Favourites") },
+                        onClick = {
+                            onAddToFavourite()
+                            showMenu = false
+                            Toast.makeText(context, "${dev.login} added to favourites", Toast.LENGTH_SHORT).show()
+                        }
+                    )
+                }
             }
 
             Text(
