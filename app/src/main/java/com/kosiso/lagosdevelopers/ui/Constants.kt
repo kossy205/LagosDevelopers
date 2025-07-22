@@ -36,4 +36,5 @@ object Constants {
     const val CLEAR = "Clear"
     const val FAVOURITE_LIST_CLEARED = "Favourite list is cleared"
     const val CLEAR_FAVOURITES = "Clear all favourites"
+    const val ERROR_LOADING_FAVOURITES = "Error loading favourites"
 }
