@@ -166,7 +166,17 @@ private fun LagosDevsListSection(
                 }
                 is LoadState.Error -> {
                     item {
-                        Text(UNABLE_TO_LOAD_DEVELOPERS)
+                        Text(
+                            text = UNABLE_TO_LOAD_DEVELOPERS,
+                            style = TextStyle(
+                                color = Black.copy(alpha = 0.5f),
+                                fontFamily = onest,
+                                fontWeight = FontWeight.Medium,
+                                fontSize = 14.sp
+                            ),
+                            modifier = Modifier
+                                .padding(top = 10.dp)
+                        )
                     }
                 }
                 else -> {}
@@ -192,7 +202,18 @@ private fun LagosDevsListSection(
                 }
                 is LoadState.Error -> {
                     item {
-                        Text(ERROR_LOADING_MORE_DATA)
+                        Text(
+                            text = ERROR_LOADING_MORE_DATA,
+                            style = TextStyle(
+                                color = Black.copy(alpha = 0.5f),
+                                fontFamily = onest,
+                                fontWeight = FontWeight.Medium,
+                                fontSize = 14.sp
+                            ),
+                            modifier = Modifier
+                                .padding(top = 10.dp)
+                        )
+
                     }
                 }
                 else -> {}

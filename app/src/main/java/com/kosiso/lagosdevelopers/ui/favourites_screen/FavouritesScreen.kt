@@ -61,6 +61,7 @@ import com.kosiso.lagosdevelopers.ui.Constants.CLEAR
 import com.kosiso.lagosdevelopers.ui.Constants.CLEAR_FAVOURITES
 import com.kosiso.lagosdevelopers.ui.Constants.CLEAR_FAVOURITE_WARNING
 import com.kosiso.lagosdevelopers.ui.Constants.ERROR_LOADING_DATA
+import com.kosiso.lagosdevelopers.ui.Constants.ERROR_LOADING_MORE_DATA
 import com.kosiso.lagosdevelopers.ui.Constants.FAVOURITES
 import com.kosiso.lagosdevelopers.ui.Constants.FAVOURITE_DEVELOPERS
 import com.kosiso.lagosdevelopers.ui.Constants.FAVOURITE_LIST_CLEARED
@@ -246,7 +247,15 @@ private fun FavouriteDevsListSection(
                         }
                         is LoadState.Error -> {
                             item {
-                                Text(ERROR_LOADING_DATA)
+                                Text(
+                                    text = ERROR_LOADING_DATA,
+                                    style = TextStyle(
+                                        color = Black,
+                                        fontFamily = onest,
+                                        fontWeight = FontWeight.Medium,
+                                        fontSize = 14.sp
+                                    )
+                                )
                             }
                         }
                         else -> {}
@@ -271,7 +280,15 @@ private fun FavouriteDevsListSection(
                         }
                         is LoadState.Error -> {
                             item {
-                                Text(ERROR_LOADING_DATA)
+                                Text(
+                                    text = ERROR_LOADING_DATA,
+                                    style = TextStyle(
+                                        color = Black,
+                                        fontFamily = onest,
+                                        fontWeight = FontWeight.Medium,
+                                        fontSize = 14.sp
+                                    )
+                                )
                             }
                         }
                         else -> {}

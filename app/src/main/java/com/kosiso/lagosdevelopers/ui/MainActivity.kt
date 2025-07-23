@@ -25,6 +25,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -53,6 +55,7 @@ import com.kosiso.lagosdevelopers.ui.theme.Black
 import com.kosiso.lagosdevelopers.ui.theme.LagosDevelopersTheme
 import com.kosiso.lagosdevelopers.ui.theme.Pink
 import com.kosiso.lagosdevelopers.ui.theme.White
+import com.kosiso.lagosdevelopers.ui.theme.onest
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.UUID
 
@@ -229,7 +232,12 @@ class MainActivity : ComponentActivity() {
                         Text(
                             text = navItem.name,
                             textAlign = TextAlign.Center,
-                            fontSize = 10.sp
+                            style = TextStyle(
+                                color = Black.copy(alpha = 0.8f),
+                                fontFamily = onest,
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 10.sp
+                            )
                         )
                     }
                 )

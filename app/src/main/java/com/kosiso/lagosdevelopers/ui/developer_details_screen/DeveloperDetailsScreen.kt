@@ -235,7 +235,15 @@ private fun DeveloperDetailsSection(
                         modifier = Modifier
                             .fillMaxSize()
                     ){
-                        Text(text = "${ result.message }, " + CHECK_INTERNET_CONNECTION)
+                        Text(
+                            text = "${ result.message }, " + CHECK_INTERNET_CONNECTION,
+                            style = TextStyle(
+                                color = Black.copy(alpha = 0.5f),
+                                fontFamily = onest,
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 14.sp
+                            )
+                        )
                     }
                 }
                 is DevResponseState.NoInternet -> {
@@ -244,7 +252,15 @@ private fun DeveloperDetailsSection(
                         modifier = Modifier
                             .fillMaxSize()
                     ){
-                        Text(text = result.message)
+                        Text(
+                            text = result.message,
+                            style = TextStyle(
+                                color = Black.copy(alpha = 0.5f),
+                                fontFamily = onest,
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 14.sp
+                            )
+                        )
                     }
                 }
                 is DevResponseState.Success -> {
